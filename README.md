@@ -1,11 +1,11 @@
 # sudoku-solver
-A sudoku solver in Kotlin using tail recursion.
+A sudoku solver in Kotlin using recursion.
 
 # Background
 My son and I were doing puzzles together and we ran into this particularly difficult triangular sudoku puzzle:
 ![image](https://user-images.githubusercontent.com/13097206/80927138-f51d3200-8d9b-11ea-859d-5107a2867dd1.png)
 
-At first we tried to manually solve it but soon we found out that to solve this you need to maintain a lot of administration of all the things you tried and had to discard. My son lost interest but since I was studying Kotlin at the time I wanted to write a program to solve this one using (tail) recursion as the solution strategy I devised was particularly suited for this.
+At first we tried to manually solve it but soon we found out that to solve this you need to maintain a lot of administration of all the things you tried and had to discard. My son lost interest but since I was studying Kotlin at the time I wanted to write a program to solve this one using recursion as the solution strategy I devised was particularly suited for this.
 
 # Solution strategy
 ## Setup

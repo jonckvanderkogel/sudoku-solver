@@ -96,7 +96,7 @@ class PlayingField {
         return setupList
     }
 
-    fun generateSetupMove(id: Int, value: Int): Move {
+    private fun generateSetupMove(id: Int, value: Int): Move {
         cellMap[id]!!.value = value
         return Move(Action.GIVEN, cellMap[id]!!, value)
     }

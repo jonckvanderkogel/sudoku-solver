@@ -13,6 +13,21 @@ fun main() {
 }
 
 class SudokuSolver(val playingField: PlayingField) {
+
+    tailrec fun generateMoves(moves: List<Move>): List<Move> {
+        if (isFieldComplete()) {
+            return moves
+        } else {
+            val move = findBestGroup()?.firstAvailableCell()?.findAvailableMove()
+
+            if (move == null) {
+                return backTrack(moves)
+            } else {
+                return generateMoves(moves.plus(move))
+            }
+        }
+    }
+
     private fun isFieldComplete(): Boolean {
         val fieldComplete: Boolean = playingField
             .cellMap
@@ -28,20 +43,6 @@ class SudokuSolver(val playingField: PlayingField) {
             .groupList
             .filter{ group -> group.countPopulatedCells() < Group.GROUP_SIZE }
             .maxBy{ it.countPopulatedCells() }
-    }
-
-    tailrec fun generateMoves(moves: List<Move>): List<Move> {
-        if (isFieldComplete()) {
-            return moves
-        } else {
-            val move = findBestGroup()?.firstAvailableCell()?.findAvailableMove()
-
-            if (move == null) {
-                return backTrack(moves)
-            } else {
-                return generateMoves(moves.plus(move))
-            }
-        }
     }
 
     private fun backTrack(moves: List<Move>): List<Move> {

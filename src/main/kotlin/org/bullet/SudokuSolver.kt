@@ -4,17 +4,20 @@ import org.bullet.Action.*
 import java.lang.IllegalStateException
 
 fun main() {
-    val playingField = PlayingField()
-    val sudokuSolver = SudokuSolver(playingField)
+    val sudokuSolver = SudokuSolver(PlayingField())
 
-    val moves = sudokuSolver.generateMoves(playingField.generateSetup())
+    val moves = sudokuSolver.solve()
 
     moves.sortedBy { it.cell.id }.forEach { println(it) }
 }
 
 class SudokuSolver(val playingField: PlayingField) {
 
-    tailrec fun generateMoves(moves: List<Move>): List<Move> {
+    fun solve(): List<Move> {
+        return generateMoves(playingField.generateSetup())
+    }
+
+    private fun generateMoves(moves: List<Move>): List<Move> {
         if (isFieldComplete()) {
             return moves
         } else {

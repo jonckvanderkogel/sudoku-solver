@@ -7,10 +7,9 @@ class SudokuSolverTest {
 
     @Test
     fun testCorrectMovesGenerated() {
-        val playingField = PlayingField()
-        val sudokuSolver = SudokuSolver(playingField)
+        val sudokuSolver = SudokuSolver(PlayingField())
 
-        val moves = sudokuSolver.generateMoves(playingField.generateSetup()).sortedBy { it.cell.id }
+        val moves = sudokuSolver.solve().sortedBy { it.cell.id }
 
         assertEquals(5, moves[0].value)
         assertEquals(7, moves[1].value)

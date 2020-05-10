@@ -52,10 +52,10 @@ class SudokuSolver(val playingField: PlayingField) {
 
     private fun backTrack(moves: List<Move>): List<Move> {
         val lastMove = moves.last()
-        if (lastMove.action == GUESS) {
-            return processGuess(moves)
+        return if (lastMove.action == GUESS) {
+            processGuess(moves)
         } else if (lastMove.action == FOLLOWS) {
-            return processFollows(moves)
+            processFollows(moves)
         } else {
             throw IllegalStateException("Impossible sudoku. Did you set up the playing field correctly?")
         }
@@ -65,17 +65,16 @@ class SudokuSolver(val playingField: PlayingField) {
         val lastMove = moves.last()
         lastMove.cell.addImpossible(lastMove.value)
         val nextMove = lastMove.cell.findAvailableMove()
-        if (nextMove == null) {
+        return if (nextMove == null) {
             lastMove.cell.clearCell()
-            return backTrack(moves.subList(0, moves.count() - 1))
+            backTrack(moves.subList(0, moves.count() - 1))
         } else {
-            return moves.subList(0, moves.count() - 1).plus(nextMove)
+            moves.subList(0, moves.count() - 1).plus(nextMove)
         }
     }
 
     private fun processFollows(moves: List<Move>): List<Move> {
-        val lastMove = moves.last()
-        lastMove.cell.clearCell()
+        moves.last().cell.clearCell()
         return backTrack(moves.subList(0, moves.count() - 1))
     }
 }

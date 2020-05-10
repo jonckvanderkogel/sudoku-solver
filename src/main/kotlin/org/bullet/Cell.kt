@@ -33,16 +33,16 @@ data class Cell(val id: Int) {
             }
 
         println("For cell $this we have the possibilities: $possibilities")
-        if (possibilities.size > 1) {
+        return if (possibilities.size > 1) {
             val newValue = possibilities[0]
             value = newValue
-            return Move(Action.GUESS, this, newValue)
+            Move(Action.GUESS, this, newValue)
         } else if (possibilities.size == 1) {
             val newValue = possibilities[0]
             value = newValue
-            return Move(Action.FOLLOWS, this, newValue)
+            Move(Action.FOLLOWS, this, newValue)
         } else {
-            return null
+            null
         }
     }
 }

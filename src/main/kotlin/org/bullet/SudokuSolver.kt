@@ -11,23 +11,25 @@ fun main() {
     moves.sortedBy { it.cell.id }.forEach { println(it) }
 }
 
+fun <T> List<T>.plusMaybe(move: T?) : List<T>? {
+    return if (move == null) {
+        null
+    } else {
+        this.plus(move)
+    }
+}
+
 class SudokuSolver(val playingField: PlayingField) {
 
     fun solve(): List<Move> {
         return generateMoves(playingField.generateSetup())
     }
 
-    private fun generateMoves(moves: List<Move>): List<Move> {
+    private tailrec fun generateMoves(moves: List<Move>): List<Move> {
         if (isFieldComplete()) {
             return moves
         } else {
-            val move = findBestGroup()?.firstAvailableCell()?.findAvailableMove()
-
-            if (move == null) {
-                return backTrack(moves)
-            } else {
-                return generateMoves(moves.plus(move))
-            }
+            return generateMoves(moves.plusMaybe(findBestGroup()?.firstAvailableCell()?.findAvailableMove()) ?: backTrack(moves))
         }
     }
 
@@ -67,7 +69,7 @@ class SudokuSolver(val playingField: PlayingField) {
             lastMove.cell.clearCell()
             return backTrack(moves.subList(0, moves.count() - 1))
         } else {
-            return generateMoves(moves.subList(0, moves.count() - 1).plus(nextMove))
+            return moves.subList(0, moves.count() - 1).plus(nextMove)
         }
     }
 

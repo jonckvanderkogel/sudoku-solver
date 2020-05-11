@@ -9,18 +9,18 @@ data class Group(val id: Int, val cells: List<Cell>) {
         cells.forEach { it.groupList.add(this) }
     }
 
-    fun countPopulatedCells(): Int {
-        return cells.count { it.hasValue() }
+    fun countPopulatedCells(moves: List<Move>): Int {
+        return moves.count{ cells.contains(it.cell) }
     }
 
-    fun firstAvailableCell(): Cell? {
-        return cells.first { cell: Cell -> !cell.hasValue() }
+    fun firstAvailableCell(moves: List<Move>): Cell? {
+        return cells.first{ cell -> moves.none { it.cell == cell } }
     }
 
-    fun findAvailableValues(): List<Int> {
+    fun findAvailableValues(moves: List<Move>): List<Int> {
         return (1..9)
             .filter { i ->
-                cells.none { it.value == i }
+                moves.filter { it.value == i }.none { cells.contains(it.cell) }
             }
     }
 }

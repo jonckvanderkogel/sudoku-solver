@@ -2,45 +2,30 @@ package org.bullet
 
 data class Cell(val id: Int) {
     val groupList = mutableListOf<Group>()
-    val impossible = mutableListOf<Int>()
-    var value = 0
 
-    fun clearCell(): Unit {
-        impossible.clear()
-        value = 0
+    private fun findAvailableValues(moves: List<Move>): List<Int> {
+        return (1..9).filter { possibleValue ->
+            moves
+                .filter { it.cell == this }
+                .flatMap { it.impossible }
+                .none { it == possibleValue }
+        }
     }
 
-    fun addImpossible(impossibleValue: Int) : Unit {
-        impossible.add(impossibleValue)
-        value = 0
-    }
-
-    fun hasValue(): Boolean {
-        return value != 0
-    }
-
-    private fun findAvailableValues(): List<Int> {
-        return (1..9).filter { !impossible.contains(it) }
-    }
-
-    fun findAvailableMove(): Move? {
+    fun findAvailableMove(moves: List<Move>): Move? {
         val possibilities: List<Int> =
-            findAvailableValues()
-            .filter{ possibility ->
-                groupList
-                    .filter{ group -> group.findAvailableValues().contains(possibility) }
-                    .count() == groupList.size
-            }
+            findAvailableValues(moves)
+                .filter { possibility ->
+                    groupList
+                        .filter { group -> group.findAvailableValues(moves).contains(possibility) }
+                        .count() == groupList.size
+                }
 
         println("For cell $this we have the possibilities: $possibilities")
         return if (possibilities.size > 1) {
-            val newValue = possibilities[0]
-            value = newValue
-            Move(Action.GUESS, this, newValue)
+            Move(Action.GUESS, this, possibilities[0])
         } else if (possibilities.size == 1) {
-            val newValue = possibilities[0]
-            value = newValue
-            Move(Action.FOLLOWS, this, newValue)
+            Move(Action.FOLLOWS, this, possibilities[0])
         } else {
             null
         }

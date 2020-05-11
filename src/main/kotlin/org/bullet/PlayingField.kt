@@ -97,7 +97,6 @@ class PlayingField {
     }
 
     private fun generateSetupMove(id: Int, value: Int): Move {
-        cellMap[id]!!.value = value
         return Move(Action.GIVEN, cellMap[id]!!, value)
     }
 }

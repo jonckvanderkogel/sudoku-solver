@@ -3,11 +3,11 @@ package org.bullet
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.Test
 
-class SudokuSolverTest {
+class TriangularSudokuTest {
 
     @Test
     fun testCorrectMovesGenerated() {
-        val sudokuSolver = SudokuSolver(PlayingField())
+        val sudokuSolver = SudokuSolver(TriangularSudoku())
 
         val moves = sudokuSolver.solve().sortedBy { it.cell.id }
 

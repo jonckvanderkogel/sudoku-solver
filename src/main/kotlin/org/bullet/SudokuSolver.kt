@@ -4,7 +4,7 @@ import org.bullet.Action.*
 import java.lang.IllegalStateException
 
 fun main() {
-    val sudokuSolver = SudokuSolver(PlayingField())
+    val sudokuSolver = SudokuSolver(TraditionalSudoku())
 
     val moves = sudokuSolver.solve()
 
@@ -19,10 +19,10 @@ fun <T> List<T>.plusMaybe(move: T?) : List<T>? {
     }
 }
 
-class SudokuSolver(private val playingField: PlayingField) {
+class SudokuSolver(private val sudoku: Sudoku) {
 
     fun solve(): List<Move> {
-        return generateMoves(playingField.generateSetup())
+        return generateMoves(sudoku.generateSetup())
     }
 
     private tailrec fun generateMoves(moves: List<Move>): List<Move> {
@@ -34,7 +34,7 @@ class SudokuSolver(private val playingField: PlayingField) {
     }
 
     private fun isFieldComplete(moves: List<Move>): Boolean {
-        val fieldComplete: Boolean = playingField
+        val fieldComplete: Boolean = sudoku
             .cellMap
             .values
             .count() == moves.count()
@@ -44,7 +44,7 @@ class SudokuSolver(private val playingField: PlayingField) {
     }
 
     private fun findBestGroup(moves: List<Move>): Group? {
-        return playingField
+        return sudoku
             .groupList
             .filter{ group -> group.countPopulatedCells(moves) < Group.GROUP_SIZE }
             .maxBy{ it.countPopulatedCells(moves) }

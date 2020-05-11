@@ -1,13 +1,8 @@
 package org.bullet
 
-class PlayingField {
-    val cellMap: Map<Int, Cell>
-    val groupList: List<Group>
-
-    private fun getCellGrouping(ids: List<Int>): List<Cell> {
-        require(ids.size == Group.GROUP_SIZE) { "Grouping should always be ${Group.GROUP_SIZE} long" }
-        return ids.map { i -> cellMap[i]!! }
-    }
+class TriangularSudoku: Sudoku {
+    override val cellMap: Map<Int, Cell>
+    override val groupList: List<Group>
 
     init {
         cellMap = (1..54).associateWith { i -> Cell(i) }
@@ -71,7 +66,7 @@ class PlayingField {
         )
     }
 
-    fun generateSetup(): List<Move> {
+    override fun generateSetup(): List<Move> {
         val setupList: MutableList<Move> = ArrayList()
         setupList.add(generateSetupMove(1, 5))
         setupList.add(generateSetupMove(4, 9))
@@ -94,9 +89,5 @@ class PlayingField {
         setupList.add(generateSetupMove(50, 1))
         setupList.add(generateSetupMove(52, 2))
         return setupList
-    }
-
-    private fun generateSetupMove(id: Int, value: Int): Move {
-        return Move(Action.GIVEN, cellMap[id]!!, value)
     }
 }

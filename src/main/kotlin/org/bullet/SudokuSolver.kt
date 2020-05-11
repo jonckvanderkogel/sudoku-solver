@@ -4,7 +4,7 @@ import org.bullet.Action.*
 import java.lang.IllegalStateException
 
 fun main() {
-    val sudokuSolver = SudokuSolver(TraditionalSudoku())
+    val sudokuSolver = SudokuSolver(TriangularSudoku())
 
     val moves = sudokuSolver.solve()
 

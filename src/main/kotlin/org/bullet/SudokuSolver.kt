@@ -64,14 +64,14 @@ class SudokuSolver(private val sudoku: Sudoku) {
         lastMove.addImpossible(lastMove.value)
         val nextMove = lastMove.cell.findAvailableMove(moves)
         return if (nextMove == null) {
-            backTrack(moves.subList(0, moves.count() - 1))
+            backTrack(moves.dropLast(1))
         } else {
             nextMove.impossible.addAll(lastMove.impossible)
-            moves.subList(0, moves.count() - 1).plus(nextMove)
+            moves.dropLast(1).plus(nextMove)
         }
     }
 
     private fun processFollows(moves: List<Move>): List<Move> {
-        return backTrack(moves.subList(0, moves.count() - 1))
+        return backTrack(moves.dropLast(1))
     }
 }

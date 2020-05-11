@@ -55,7 +55,7 @@ class SudokuSolver(private val playingField: PlayingField) {
         return when (lastMove.action) {
             GUESS -> processGuess(moves)
             FOLLOWS -> processFollows(moves)
-            else -> throw IllegalStateException("Impossible sudoku. Did you set up the playing field correctly?")
+            GIVEN -> throw IllegalStateException("Impossible sudoku. Did you set up the playing field correctly?")
         }
     }
 

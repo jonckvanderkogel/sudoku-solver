@@ -16,9 +16,7 @@ data class Cell(val id: Int) {
         val possibilities: List<Int> =
             findAvailableValues(moves)
                 .filter { possibility ->
-                    groupList
-                        .filter { group -> group.findAvailableValues(moves).contains(possibility) }
-                        .count() == groupList.size
+                    groupList.all { it.findAvailableValues(moves).contains(possibility) }
                 }
 
         println("For cell $this we have the possibilities: $possibilities")

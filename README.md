@@ -1,5 +1,5 @@
 # sudoku-solver
-A sudoku solver in Kotlin using recursion.
+A sudoku solver in Kotlin using tail recursion.
 
 # Background
 My son and I were doing puzzles together and we ran into this particularly difficult triangular sudoku puzzle:
@@ -17,3 +17,5 @@ Now that the cells are numbered, we now need to put them in groups. In this case
 To solve the sudoku, we first select the "best" group, i.e. the group with the least cells (but at least one) without a value. From this group we select a cell without a value and calculate a value that would be available for this cell. A value that is available is a value that is not present in any of the groups that this cell is part of. If there were multiple values available for this cell, this move would be marked as a "guess". If there is only one value available we mark it as one that logically follows from the moves that were made previously. If at one point we run into a cell for which we have no available values it must mean we made a wrong guess earlier on. That means we have to backtrack through our list of moves, discard the moves for which we only had 1 option and mark the value that we "guessed" as impossible for that cell and try one of the other values available.
 
 As we pop and push from the list of moves, marking which values are impossible for a particular position and making new guesses eventually you'll reach a stable situation where all the cells have a valid value.
+
+The solver is able to solve sudoku's in general, not just triangular ones. An example of this can be seen in the TraditionalSudoku.kt file. To replace with your own sudoku you just need to replace the setup moves with the index/value pairs of whatever sudoku you are trying to solve.

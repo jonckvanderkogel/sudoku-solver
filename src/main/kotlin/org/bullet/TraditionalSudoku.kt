@@ -2,7 +2,7 @@ package org.bullet
 
 import kotlin.math.floor
 
-class TraditionalSudoku: Sudoku {
+open class TraditionalSudoku: Sudoku {
     override val cellMap: Map<Int, Cell> = (1..81).associateWith { i -> Cell(i) }
     override val groupList: List<Group> = generateGroupings()
 

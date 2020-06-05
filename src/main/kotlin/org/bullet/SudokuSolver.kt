@@ -1,6 +1,7 @@
 package org.bullet
 
 import org.bullet.Action.*
+import org.slf4j.LoggerFactory
 import java.lang.IllegalStateException
 
 fun main() {
@@ -20,6 +21,9 @@ fun <T> List<T>.plusMaybe(move: T?) : List<T>? {
 }
 
 class SudokuSolver(private val sudoku: Sudoku) {
+    companion object {
+        private val logger = LoggerFactory.getLogger(SudokuSolver::class.java)
+    }
 
     fun solve(): List<Move> {
         return generateMoves(sudoku.generateSetup())
@@ -39,15 +43,16 @@ class SudokuSolver(private val sudoku: Sudoku) {
             .values
             .count() == moves.count()
 
-        println("Field complete: $fieldComplete")
+        logger.debug("Field complete: $fieldComplete")
         return fieldComplete
     }
 
     private fun findBestGroup(moves: List<Move>): Group? {
         return sudoku
             .groupList
-            .filter{ group -> group.countPopulatedCells(moves) < Group.GROUP_SIZE }
-            .maxBy{ it.countPopulatedCells(moves) }
+            .map { group -> Pair(group, group.countPopulatedCells(moves)) }
+            .filter{ pair -> pair.second < Group.GROUP_SIZE }
+            .maxBy{ it.second }?.first
     }
 
     private fun backTrack(moves: List<Move>): List<Move> {

@@ -52,7 +52,7 @@ class SudokuSolver(private val sudoku: Sudoku) {
             .groupList
             .map { group -> Pair(group, group.countPopulatedCells(moves)) }
             .filter{ pair -> pair.second < Group.GROUP_SIZE }
-            .maxBy{ it.second }?.first
+            .maxByOrNull{ it.second }?.first
     }
 
     private fun backTrack(moves: List<Move>): List<Move> {
